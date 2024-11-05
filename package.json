@@ -1,0 +1,78 @@
+{
+  "name": "orbit",
+  "version": "1.0.0",
+  "description": "Orbit is a discord bot in my Discord community server",
+  "main": "dist/index.js",
+  "directories": {
+    "doc": "docs",
+    "dist": "dist",
+    "scripts": "scripts"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node -r tsconfig-paths/register dist/index.js",
+    "dev": "nodemon src/index.ts",
+    "build": "rimraf dist && tsc",
+    "deploy-commands": "node scripts/deployCommands.js",
+    "format": "prettier --cache --write . --ignore-path .prettierignore",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "prepare": "husky install",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chocoOnEstrogen/orbit.git"
+  },
+  "author": "chocoOnEstrogen",
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/chocoOnEstrogen/orbit/issues"
+  },
+  "homepage": "https://github.com/chocoOnEstrogen/orbit#readme",
+  "dependencies": {
+    "@atproto/api": "^0.13.14",
+    "@supabase/supabase-js": "^2.46.1",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/lodash": "^4.17.13",
+    "axios": "^1.6.7",
+    "chalk": "^4.1.2",
+    "cors": "^2.8.5",
+    "date-fns": "^3.6.0",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^8.2.0",
+    "ms": "^2.1.3",
+    "winston": "^3.11.0",
+    "zod": "^3.23.8",
+    "@discordjs/voice": "^0.16.1",
+    "ffmpeg-static": "^5.2.0",
+    "libsodium-wrappers": "^0.7.13",
+    "opusscript": "^0.0.8"
+  },
+  "devDependencies": {
+    "@types/ms": "^0.7.34",
+    "@types/node": "^20.11.24",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.10",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.3.3"
+  }
+}
