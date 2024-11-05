@@ -118,11 +118,9 @@ npm run dev
 3. Run `npm run deploy-commands` to register new commands
 
 ### Code Style
-The project uses ESLint and Prettier for code formatting:
+The project uses Prettier for code formatting:
 
 ```bash
-npm run lint     # Check for issues
-npm run lint:fix # Fix issues
 npm run format   # Format code
 ```
 

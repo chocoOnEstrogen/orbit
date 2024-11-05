@@ -27,8 +27,5 @@ jobs:
         npm i
         npm ci
       
-    - name: Run linter
-      run: npm run lint
-      
     - name: Build
       run: npm run build
