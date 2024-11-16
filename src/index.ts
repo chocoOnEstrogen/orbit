@@ -53,9 +53,9 @@ client
 	.login(token)
 	.then(() => {
 		// Initialize Bluesky service after successful login
-		// blueskyService.init().catch(error => {
-		//     Logger.log('error', `Failed to initialize Bluesky service: ${error.message}`, 'Client');
-		// });
+		blueskyService.init().catch(error => {
+		     Logger.log('error', `Failed to initialize Bluesky service: ${error.message}`, 'Client');
+		 });
 
 		// Start reminder service after successful login
 		reminderService.start()
@@ -77,7 +77,7 @@ process.on('unhandledRejection', (error) => {
 // Add cleanup for Bluesky service
 process.on('SIGINT', () => {
 	Logger.log('info', 'Shutting down...', 'Process')
-	// blueskyService.stop();
+	blueskyService.stop();
 	process.exit(0)
 })
 
