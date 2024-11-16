@@ -13,10 +13,12 @@ Orbit is a feature-rich Discord bot designed to enhance community server functio
 - `/giveaway` - Create and manage giveaways
 - `/remind` - Set personal reminders
 - `/poll` - Create interactive polls
+- `/commission` - Request commissions from me
 
 ### Moderation Commands
 - `/ban` - Ban users from the server
 - `/timeout` - Temporarily timeout users
+- `/freelance` - Add freelance items for commissions
 
 ### Fun Commands
 - `/8ball` - Ask the magic 8-ball a question
@@ -134,7 +136,7 @@ npm run format   # Format code
 
 ## License
 
-ISC License - See LICENSE file for details
+GPL License - See LICENSE file for details
 
 ## Support
 
