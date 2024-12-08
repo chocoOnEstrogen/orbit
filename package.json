@@ -37,7 +37,7 @@
   "homepage": "https://github.com/chocoOnEstrogen/orbit#readme",
   "dependencies": {
     "@atproto/api": "^0.13.14",
-    "@discordjs/voice": "^0.16.1",
+    "@discordjs/voice": "^0.18.0",
     "@napi-rs/canvas": "^0.1.65",
     "@supabase/supabase-js": "^2.46.1",
     "@types/cors": "^2.8.17",
