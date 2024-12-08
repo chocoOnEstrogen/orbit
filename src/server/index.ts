@@ -1,6 +1,10 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import { supabase } from '@/configs/supabase'
+import { v4 as uuidv4 } from 'uuid'
+import client from '@/index'
+import { discordConfig } from '@/configs/discord'
+import { TextChannel, EmbedBuilder } from 'discord.js'
 
 const app = express()
 const port = process.env.HTTP_PORT || 3000
@@ -80,6 +84,55 @@ app.get(
 // Health check endpoint
 app.get('/health', (_, res: Response): any => {
 	res.status(200).json({ status: 'ok' })
+})
+
+// This endpoint is used to ask me a question
+// app.post('/ask', async (req: Request, res: Response): Promise<any> => {
+// 	const { text, tags, response } = req.body
+// 	const keyHeader = req.headers['x-api-key']
+
+// 	if (!text || !tags || !response) {
+// 		return res.status(400).json({ error: 'Missing required fields', fields: { text, tags, response } })
+// 	}
+
+// 	if (keyHeader !== process.env.API_KEY) {
+// 		return res.status(401).json({ error: 'Unauthorized' })
+// 	}
+
+// 	const textData = `"${text}"\n\n${response}`
+
+// 	await BlueskyService.createPost({ text: textData, tags })
+
+// 	return res.status(200).json({ message: 'Post created' })
+// })
+
+app.post('/ask', async (req: Request, res: Response): Promise<any> => {
+	const { text } = req.body
+	const keyHeader = req.headers['x-api-key']
+
+	if (!text) {
+		return res.status(400).json({ error: 'Missing required fields' })
+	}
+ 
+	if (keyHeader !== process.env.API_KEY) {
+		return res.status(401).json({ error: 'Unauthorized' })
+	}
+
+	const uuid = uuidv4()
+	await supabase.from('user_questions').insert({ question: text, uuid })
+
+	const embed = new EmbedBuilder()
+		.setColor('Blue')
+		.setTitle('A new question has been asked!')
+		.setDescription(`**${text}**\n\n\n**Ask your question here:** https://www.choco.rip/ask`)
+		.setFooter({ text: `UUID: ${uuid}` })
+		.setTimestamp(new Date())
+
+	await (client.channels.cache.get(discordConfig.feedChannelId) as TextChannel)?.send({
+		embeds: [embed],
+	})
+
+	return res.status(200).json({ message: 'Question received' })
 })
 
 export function startServer() {

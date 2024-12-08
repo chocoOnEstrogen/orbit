@@ -90,3 +90,5 @@ process.on('SIGINT', () => {
 
 // Start the HTTP server
 startServer()
+
+export default client
