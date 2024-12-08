@@ -5,12 +5,20 @@ import { v4 as uuidv4 } from 'uuid'
 import client from '@/index'
 import { discordConfig } from '@/configs/discord'
 import { TextChannel, EmbedBuilder } from 'discord.js'
+import NodeCache from 'node-cache'
 
 const app = express()
 const port = process.env.HTTP_PORT || 3000
 
+// 5 mins
+const askCache = new NodeCache({ stdTTL: 300 })
+
 app.use(cors())
 app.use(express.json())
+
+function fromHex(text: string) {
+	return Buffer.from(text, 'hex').toString('utf8')
+}
 
 // Route to suggest blacklist tags
 app.post(
@@ -86,34 +94,18 @@ app.get('/health', (_, res: Response): any => {
 	res.status(200).json({ status: 'ok' })
 })
 
-// This endpoint is used to ask me a question
-// app.post('/ask', async (req: Request, res: Response): Promise<any> => {
-// 	const { text, tags, response } = req.body
-// 	const keyHeader = req.headers['x-api-key']
-
-// 	if (!text || !tags || !response) {
-// 		return res.status(400).json({ error: 'Missing required fields', fields: { text, tags, response } })
-// 	}
-
-// 	if (keyHeader !== process.env.API_KEY) {
-// 		return res.status(401).json({ error: 'Unauthorized' })
-// 	}
-
-// 	const textData = `"${text}"\n\n${response}`
-
-// 	await BlueskyService.createPost({ text: textData, tags })
-
-// 	return res.status(200).json({ message: 'Post created' })
-// })
-
 app.post('/ask', async (req: Request, res: Response): Promise<any> => {
-	const { text } = req.body
+	const { text, ipAddress } = req.body
 	const keyHeader = req.headers['x-api-key']
 
-	if (!text) {
+	if (!text || !ipAddress) {
 		return res.status(400).json({ error: 'Missing required fields' })
 	}
- 
+
+	if (askCache.get(fromHex(ipAddress))) {
+		return res.status(429).json({ error: 'Too many requests' })
+	}
+
 	if (keyHeader !== process.env.API_KEY) {
 		return res.status(401).json({ error: 'Unauthorized' })
 	}
@@ -131,6 +123,8 @@ app.post('/ask', async (req: Request, res: Response): Promise<any> => {
 	await (client.channels.cache.get(discordConfig.feedChannelId) as TextChannel)?.send({
 		embeds: [embed],
 	})
+
+	askCache.set(fromHex(ipAddress), { text, ipAddress })
 
 	return res.status(200).json({ message: 'Question received' })
 })
