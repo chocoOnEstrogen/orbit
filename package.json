@@ -39,7 +39,7 @@
     "@atproto/api": "^0.13.14",
     "@discordjs/voice": "^0.16.1",
     "@napi-rs/canvas": "^0.1.65",
-    "@supabase/supabase-js": "^2.46.1",
+    "@supabase/supabase-js": "^2.48.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/lodash": "^4.17.13",
