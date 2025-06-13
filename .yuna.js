@@ -5,20 +5,12 @@ module.exports = {
       codePaths: [
         {
           // Main TypeScript source code
-          path: "src",
+          path: ".",
           language: "typescript",
           ecosystem: "npm",
           manifest: "package.json",
           testCommand: "snyk test --json --all-projects --detection-depth=3 --file=package.json"
         },
-        {
-          // Scripts directory
-          path: "scripts",
-          language: "javascript",
-          ecosystem: "npm",
-          manifest: "package.json",
-          testCommand: "snyk test --json --all-projects --detection-depth=3 --file=package.json"
-        }
       ],
       // Global Snyk settings
       settings: {
